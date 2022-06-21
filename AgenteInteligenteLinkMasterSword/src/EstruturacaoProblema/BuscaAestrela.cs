@@ -95,7 +95,8 @@ namespace AgenteInteligenteLinkMasterSword.src.EstruturacaoProblema
 
         private int ObterCustoEstimado(PosicaoItem estado)
         {
-            return 0;
+            int custoMinimoPorCasa = CustoTerreno[(int)Terreno.Grama];
+            return estado.CalcularDistanciaDeDoisPontos(Destino) * custoMinimoPorCasa;
         }
 
         private void AdicionarNoABorda(NoBuscaAestrela noFilho, PriorityQueue<NoBuscaAestrela, int> borda)

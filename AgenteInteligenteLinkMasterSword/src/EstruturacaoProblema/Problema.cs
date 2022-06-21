@@ -12,6 +12,15 @@ namespace AgenteInteligenteLinkMasterSword.src.EstruturacaoProblema
             this.Coluna = Coluna;
             this.Linha = Linha;
         }
+
+        public int CalcularDistanciaDeDoisPontos(PosicaoItem posicaoDestino)
+        {
+            int distanciaEixoX = posicaoDestino.Coluna - Coluna;
+            int distanciaEixoY = posicaoDestino.Linha - Linha;
+
+            int distancia = (int)Math.Floor(Math.Sqrt((distanciaEixoX * distanciaEixoX) + (distanciaEixoY * distanciaEixoY)));
+            return distancia;
+        }
     }
 
     public class Mapa
