@@ -1,264 +1,54 @@
-﻿using AgenteInteligenteLinkMasterSword.src.EstruturacaoProblema;
+﻿using AgenteInteligenteLinkMasterSword.src.Comum;
+using AgenteInteligenteLinkMasterSword.src.EstruturacaoProblema;
 
 Problema problema = new();
 
-Console.WriteLine("DUNGEONS");
-Console.WriteLine();
-#region DUNGEONS
-if (problema.PosicaoPingente1 != null)
-{
-    Console.WriteLine("Dungeon 1");
+#region Cálculo dos melhores caminhos
+if (problema.PosicaoPingente1 == null || problema.PosicaoPingente2 == null || problema.PosicaoPingente3 == null || problema.PosicaoMasterSword == null)
+    return;
 
-    BuscaAestrela busca = new(problema.Dungeon1, problema.InicioDungeon1, problema.PosicaoPingente1, problema.CustoTerreno);
+BuscaAestrela buscaDungeon1 = new(problema.Dungeon1, problema.InicioDungeon1, problema.PosicaoPingente1, problema.CustoTerreno);
+List<PosicaoItem>? MelhorCaminhoDungeon1 = buscaDungeon1.EncontrarMelhorCaminho(out int custoDoCaminhoDungeon1); ;
 
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
+BuscaAestrela buscaDungeon2 = new(problema.Dungeon2, problema.InicioDungeon2, problema.PosicaoPingente2, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoDungeon2 = buscaDungeon2.EncontrarMelhorCaminho(out int custoDoCaminhoDungeon2);
 
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
+BuscaAestrela buscaDungeon3 = new(problema.Dungeon3, problema.InicioDungeon3, problema.PosicaoPingente3, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoDungeon3 = buscaDungeon3.EncontrarMelhorCaminho(out int custoDoCaminhoDungeon3);
 
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
+BuscaAestrela buscaClD1 = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaDungeon1, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoClD1 = buscaClD1.EncontrarMelhorCaminho(out int custoDoCaminhoClD1);
 
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
+BuscaAestrela buscaClD2 = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaDungeon2, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoClD2 = buscaClD2.EncontrarMelhorCaminho(out int custoDoCaminhoClD2);
 
-if (problema.PosicaoPingente2 != null)
-{
-    Console.WriteLine("Dungeon 2");
+BuscaAestrela buscaClD3 = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaDungeon3, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoClD3 = buscaClD3.EncontrarMelhorCaminho(out int custoDoCaminhoClD3);
 
-    BuscaAestrela busca = new(problema.Dungeon2, problema.InicioDungeon2, problema.PosicaoPingente2, problema.CustoTerreno);
+BuscaAestrela buscaD1D2 = new(problema.ReinoDeHyrule, problema.EntradaDungeon1, problema.EntradaDungeon2, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoD1D2 = buscaD1D2.EncontrarMelhorCaminho(out int custoDoCaminhoD1D2);
 
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
+BuscaAestrela buscaD1D3 = new(problema.ReinoDeHyrule, problema.EntradaDungeon1, problema.EntradaDungeon3, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoD1D3 = buscaD1D3.EncontrarMelhorCaminho(out int custoDoCaminhoD1D3);
 
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
+BuscaAestrela buscaD2D3 = new(problema.ReinoDeHyrule, problema.EntradaDungeon2, problema.EntradaDungeon3, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoD2D3 = buscaD2D3.EncontrarMelhorCaminho(out int custoDoCaminhoD2D3);
 
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
+BuscaAestrela buscaClLw = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaLostWoods, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoClLw = buscaClLw.EncontrarMelhorCaminho(out int custoDoCaminhoClLw);
 
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
-
-if (problema.PosicaoPingente3 != null)
-{
-    Console.WriteLine("Dungeon 3");
-
-    BuscaAestrela busca = new(problema.Dungeon3, problema.InicioDungeon3, problema.PosicaoPingente3, problema.CustoTerreno);
-
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
-
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
-
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
-
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
+BuscaAestrela buscaLwMs = new(problema.ReinoDeHyrule, problema.EntradaLostWoods, problema.PosicaoMasterSword, problema.CustoTerreno);
+List<PosicaoItem>? melhorCaminhoLwMs = buscaLwMs.EncontrarMelhorCaminho(out int custoDoCaminhoLwMs);
 #endregion
 
-Console.WriteLine("REINO DE HYRULE");
-Console.WriteLine();
-#region REINO DE HYRULE
-if (true)
-{
-    Console.WriteLine("Melhor Caminho da Casa do Link até a Dungeon 1");
+OrdemDeVisitacao ordemDeVisitacao = new();
 
-    BuscaAestrela busca = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaDungeon1, problema.CustoTerreno);
+ordemDeVisitacao.AdicionarCaminho(PontosVisitacaoHyrule.CasaDoLink, PontosVisitacaoHyrule.Dungeon1, melhorCaminhoClD1, custoDoCaminhoClD1);
+ordemDeVisitacao.AdicionarCaminho(PontosVisitacaoHyrule.CasaDoLink, PontosVisitacaoHyrule.Dungeon2, melhorCaminhoClD2, custoDoCaminhoClD2);
+ordemDeVisitacao.AdicionarCaminho(PontosVisitacaoHyrule.CasaDoLink, PontosVisitacaoHyrule.Dungeon3, melhorCaminhoClD3, custoDoCaminhoClD3);
+ordemDeVisitacao.AdicionarCaminho(PontosVisitacaoHyrule.Dungeon1, PontosVisitacaoHyrule.Dungeon2, melhorCaminhoD1D2, custoDoCaminhoD1D2);
+ordemDeVisitacao.AdicionarCaminho(PontosVisitacaoHyrule.Dungeon1, PontosVisitacaoHyrule.Dungeon3, melhorCaminhoD1D3, custoDoCaminhoD1D3);
+ordemDeVisitacao.AdicionarCaminho(PontosVisitacaoHyrule.Dungeon2, PontosVisitacaoHyrule.Dungeon3, melhorCaminhoD2D3, custoDoCaminhoD2D3);
 
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
+PontosVisitacaoHyrule[] melhorOrdemDeVisitacao = ordemDeVisitacao.CalcularMelhorOrdemDeVisitacao();
 
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-    Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
-
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
-
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
-
-if (true)
-{
-    Console.WriteLine("Melhor Caminho da Casa do Link até a Dungeon 2");
-
-    BuscaAestrela busca = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaDungeon2, problema.CustoTerreno);
-
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
-
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
-
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
-
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
-
-if (true)
-{
-    Console.WriteLine("Melhor Caminho da Casa do Link até a Dungeon 3");
-
-    BuscaAestrela busca = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaDungeon3, problema.CustoTerreno);
-
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
-
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
-
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
-
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
-
-if (true)
-{
-    Console.WriteLine("Melhor Caminho da Dungeon 1 até a Dungeon 2");
-
-    BuscaAestrela busca = new(problema.ReinoDeHyrule, problema.EntradaDungeon1, problema.EntradaDungeon2, problema.CustoTerreno);
-
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
-
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
-
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
-
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
-
-if (true)
-{
-    Console.WriteLine("Melhor Caminho da Dungeon 1 até a Dungeon 3");
-
-    BuscaAestrela busca = new(problema.ReinoDeHyrule, problema.EntradaDungeon1, problema.EntradaDungeon3, problema.CustoTerreno);
-
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
-
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
-
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
-
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
-
-if (true)
-{
-    Console.WriteLine("Melhor Caminho da Dungeon 2 até a Dungeon 3");
-
-    BuscaAestrela busca = new(problema.ReinoDeHyrule, problema.EntradaDungeon2, problema.EntradaDungeon3, problema.CustoTerreno);
-
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
-
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
-
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
-
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
-
-if (true)
-{
-    Console.WriteLine("Melhor Caminho da Casa do Link até Lost Woods");
-
-    BuscaAestrela busca = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaLostWoods, problema.CustoTerreno);
-
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
-
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
-
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
-
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
-
-if (true)
-{
-    Console.WriteLine("Melhor Caminho de Lost Woods até a Master Sword");
-
-    BuscaAestrela busca = new(problema.ReinoDeHyrule, problema.EntradaLostWoods, problema.PosicaoMasterSword, problema.CustoTerreno);
-
-    List<PosicaoItem>? melhorCaminho = busca.EncontrarMelhorCaminho(out int custoDoCaminho);
-
-    Console.WriteLine("Quantidade de quadrados: " + melhorCaminho.Count);
-    Console.Write("Caminho: ");
-    foreach (var posicao in melhorCaminho)
-    {
-        Console.Write("(" + posicao.Coluna + ", " + posicao.Linha + "), ");
-    }
-
-    Console.WriteLine();
-    Console.WriteLine("Custo do caminho: " + custoDoCaminho);
-    Console.WriteLine();
-
-    Console.WriteLine("-----------------------------------------------------------------------------------------------------------------");
-    Console.WriteLine();
-}
-#endregion

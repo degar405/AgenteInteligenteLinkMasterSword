@@ -18,4 +18,12 @@
         Dungeon2,
         Dungeon3
     }
+
+    public enum PontosVisitacaoHyrule
+    {
+        CasaDoLink,
+        Dungeon1,
+        Dungeon2,
+        Dungeon3
+    }
 }
