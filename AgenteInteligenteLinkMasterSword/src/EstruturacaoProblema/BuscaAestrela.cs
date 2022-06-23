@@ -95,7 +95,7 @@ namespace AgenteInteligenteLinkMasterSword.src.EstruturacaoProblema
 
         private int ObterCustoEstimado(PosicaoItem estado)
         {
-            int custoMinimoPorCasa = CustoTerreno[(int)Terreno.Grama];
+            int custoMinimoPorCasa = CustoTerreno[(int)Terreno.Grama] - 1;
             return estado.CalcularDistanciaDeDoisPontos(Destino) * custoMinimoPorCasa;
         }
 
