@@ -8,13 +8,13 @@ if (problema.PosicaoPingente1 == null || problema.PosicaoPingente2 == null || pr
     return;
 
 BuscaAestrela buscaDungeon1 = new(problema.Dungeon1, problema.InicioDungeon1, problema.PosicaoPingente1, problema.CustoTerreno);
-List<PosicaoItem>? MelhorCaminhoDungeon1 = buscaDungeon1.EncontrarMelhorCaminho(out int custoDoCaminhoDungeon1); ;
+List<PosicaoItem>? melhorCaminhoDungeon1 = buscaDungeon1.EncontrarMelhorCaminho(out _); ;
 
 BuscaAestrela buscaDungeon2 = new(problema.Dungeon2, problema.InicioDungeon2, problema.PosicaoPingente2, problema.CustoTerreno);
-List<PosicaoItem>? melhorCaminhoDungeon2 = buscaDungeon2.EncontrarMelhorCaminho(out int custoDoCaminhoDungeon2);
+List<PosicaoItem>? melhorCaminhoDungeon2 = buscaDungeon2.EncontrarMelhorCaminho(out _);
 
 BuscaAestrela buscaDungeon3 = new(problema.Dungeon3, problema.InicioDungeon3, problema.PosicaoPingente3, problema.CustoTerreno);
-List<PosicaoItem>? melhorCaminhoDungeon3 = buscaDungeon3.EncontrarMelhorCaminho(out int custoDoCaminhoDungeon3);
+List<PosicaoItem>? melhorCaminhoDungeon3 = buscaDungeon3.EncontrarMelhorCaminho(out _);
 
 BuscaAestrela buscaClD1 = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaDungeon1, problema.CustoTerreno);
 List<PosicaoItem>? melhorCaminhoClD1 = buscaClD1.EncontrarMelhorCaminho(out int custoDoCaminhoClD1);
@@ -35,11 +35,13 @@ BuscaAestrela buscaD2D3 = new(problema.ReinoDeHyrule, problema.EntradaDungeon2, 
 List<PosicaoItem>? melhorCaminhoD2D3 = buscaD2D3.EncontrarMelhorCaminho(out int custoDoCaminhoD2D3);
 
 BuscaAestrela buscaClLw = new(problema.ReinoDeHyrule, problema.CasaLink, problema.EntradaLostWoods, problema.CustoTerreno);
-List<PosicaoItem>? melhorCaminhoClLw = buscaClLw.EncontrarMelhorCaminho(out int custoDoCaminhoClLw);
+List<PosicaoItem>? melhorCaminhoClLw = buscaClLw.EncontrarMelhorCaminho(out _);
 
 BuscaAestrela buscaLwMs = new(problema.ReinoDeHyrule, problema.EntradaLostWoods, problema.PosicaoMasterSword, problema.CustoTerreno);
-List<PosicaoItem>? melhorCaminhoLwMs = buscaLwMs.EncontrarMelhorCaminho(out int custoDoCaminhoLwMs);
+List<PosicaoItem>? melhorCaminhoLwMs = buscaLwMs.EncontrarMelhorCaminho(out _);
 #endregion
+
+List<PosicaoItem>?[] melhoresCaminhosDeDungeons = new List<PosicaoItem>?[] { melhorCaminhoDungeon1, melhorCaminhoDungeon2, melhorCaminhoDungeon3 };
 
 OrdemDeVisitacao ordemDeVisitacao = new();
 
@@ -52,3 +54,31 @@ ordemDeVisitacao.AdicionarCaminho(PontosVisitacaoHyrule.Dungeon2, PontosVisitaca
 
 PontosVisitacaoHyrule[] melhorOrdemDeVisitacao = ordemDeVisitacao.CalcularMelhorOrdemDeVisitacao();
 
+ExibidorDeCaminhos exibidorHyrule = new(problema.ReinoDeHyrule, problema.CasaLink, problema.PosicaoMasterSword, problema.CustoTerreno);
+ExibidorDeCaminhos exibidorDungeon1 = new(problema.Dungeon1, problema.InicioDungeon1, problema.PosicaoPingente1, problema.CustoTerreno);
+ExibidorDeCaminhos exibidorDungeon2 = new(problema.Dungeon2, problema.InicioDungeon2, problema.PosicaoPingente2, problema.CustoTerreno);
+ExibidorDeCaminhos exibidorDungeon3 = new(problema.Dungeon3, problema.InicioDungeon3, problema.PosicaoPingente3, problema.CustoTerreno);
+
+ExibidorDeCaminhos[] exibidoresDungeons = new ExibidorDeCaminhos[] { exibidorDungeon1, exibidorDungeon2, exibidorDungeon3 };
+
+for (int i = 1; i < melhorOrdemDeVisitacao.Length; i++)
+{
+    List<PosicaoItem>? caminhoHyrule = ordemDeVisitacao.ConsultarCaminho(melhorOrdemDeVisitacao[i - 1], melhorOrdemDeVisitacao[i]);
+    if (caminhoHyrule == null) return;
+    exibidorHyrule.AplicarCaminho(caminhoHyrule);
+
+    if (melhorOrdemDeVisitacao[i] != PontosVisitacaoHyrule.CasaDoLink)
+    {
+        List<PosicaoItem>? caminhoDungeon = melhoresCaminhosDeDungeons[(int)melhorOrdemDeVisitacao[i] - 1];
+        if (caminhoDungeon == null) return;
+        
+        ExibidorDeCaminhos exibidorDungeon = exibidoresDungeons[(int)melhorOrdemDeVisitacao[i] - 1];
+        exibidorDungeon.AtualizarCusto(exibidorHyrule.Custo);
+        exibidorDungeon.AplicarCaminho(caminhoDungeon, true);
+
+        exibidorHyrule.AtualizarCusto(exibidorDungeon.Custo);
+    }
+}
+
+exibidorHyrule.AplicarCaminho(melhorCaminhoClLw);
+exibidorHyrule.AplicarCaminho(melhorCaminhoLwMs);

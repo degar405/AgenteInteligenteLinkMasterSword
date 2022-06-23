@@ -26,6 +26,11 @@ namespace AgenteInteligenteLinkMasterSword.src.EstruturacaoProblema
             CustosViagem[(int)destino, (int)origem] = custoCaminho;
         }
 
+        public List<PosicaoItem>? ConsultarCaminho(PontosVisitacaoHyrule origem, PontosVisitacaoHyrule destino)
+        {
+            return Caminhos[(int)origem, (int)destino];
+        }
+
         public PontosVisitacaoHyrule[] CalcularMelhorOrdemDeVisitacao()
         {
             List<PontosVisitacaoHyrule[]> permutacoesDeDungeons = ObterPermutacoesDeDungeons();
