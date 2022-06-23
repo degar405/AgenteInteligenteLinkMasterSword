@@ -61,6 +61,8 @@ ExibidorDeCaminhos exibidorDungeon3 = new(problema.Dungeon3, problema.InicioDung
 
 ExibidorDeCaminhos[] exibidoresDungeons = new ExibidorDeCaminhos[] { exibidorDungeon1, exibidorDungeon2, exibidorDungeon3 };
 
+Console.OutputEncoding = System.Text.Encoding.Unicode;
+
 for (int i = 1; i < melhorOrdemDeVisitacao.Length; i++)
 {
     List<PosicaoItem>? caminhoHyrule = ordemDeVisitacao.ConsultarCaminho(melhorOrdemDeVisitacao[i - 1], melhorOrdemDeVisitacao[i]);
@@ -71,7 +73,7 @@ for (int i = 1; i < melhorOrdemDeVisitacao.Length; i++)
     {
         List<PosicaoItem>? caminhoDungeon = melhoresCaminhosDeDungeons[(int)melhorOrdemDeVisitacao[i] - 1];
         if (caminhoDungeon == null) return;
-        
+
         ExibidorDeCaminhos exibidorDungeon = exibidoresDungeons[(int)melhorOrdemDeVisitacao[i] - 1];
         exibidorDungeon.AtualizarCusto(exibidorHyrule.Custo);
         exibidorDungeon.AplicarCaminho(caminhoDungeon, true);

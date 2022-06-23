@@ -8,8 +8,6 @@
         private int[] CustoTerreno { get; set; }
         public int Custo { get; private set; }
         private bool AtualizacaoCustoAcumula { get; set; }
-
-        private static string[] SimbolosTerreno = { "G", "A", "F", "M", "a", " ", "#"};
         private static ConsoleColor[] CoresTerreno = { 
             ConsoleColor.Green, 
             ConsoleColor.Yellow, 
@@ -88,7 +86,7 @@
                     else
                     {
                         Console.ForegroundColor = CoresTerreno[Mapa.Matriz[i, o]];
-                        Console.Write($"{SimbolosTerreno[Mapa.Matriz[i, o]]} ");
+                        Console.Write($"\x2B1C ");
                     }
                 }
                 Console.WriteLine();
