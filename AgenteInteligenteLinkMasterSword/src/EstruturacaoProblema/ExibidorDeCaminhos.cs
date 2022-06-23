@@ -8,17 +8,19 @@
         private int[] CustoTerreno { get; set; }
         public int Custo { get; private set; }
         private bool AtualizacaoCustoAcumula { get; set; }
+        private int TempoDeAtualizacao { get; set; }
+        private string NomeDoMapa { get; set; }
         private static ConsoleColor[] CoresTerreno = { 
             ConsoleColor.Green, 
             ConsoleColor.Yellow, 
-            ConsoleColor.DarkGreen, 
+            ConsoleColor.DarkRed, 
             ConsoleColor.DarkYellow, 
             ConsoleColor.Blue, 
             ConsoleColor.Black,
             ConsoleColor.White
         };
 
-        public ExibidorDeCaminhos(Mapa mapa, PosicaoItem posicaoLink, PosicaoItem itemBuscado, int[] custoTerreno)
+        public ExibidorDeCaminhos(Mapa mapa, PosicaoItem posicaoLink, PosicaoItem itemBuscado, int[] custoTerreno, int tempoDeAtualizacao, string nomeDoMapa)
         {
             Mapa = mapa;
             PosicaoLink = posicaoLink;
@@ -26,6 +28,8 @@
             CustoTerreno = custoTerreno;
             Custo = CustoTerreno[Mapa.Matriz[PosicaoLink.Linha, PosicaoLink.Coluna]];
             AtualizacaoCustoAcumula = true;
+            TempoDeAtualizacao = tempoDeAtualizacao;
+            NomeDoMapa = nomeDoMapa;
         }
 
         public void AtualizarCusto(int custo)
@@ -53,10 +57,12 @@
                     ItemBuscado = null;
 
                 Console.Clear();
+                Console.WriteLine($"Mapa: {NomeDoMapa}");
+                Console.WriteLine();
                 Console.WriteLine($"Custo: {Custo}");
                 Console.WriteLine();
                 PrintarMapa();
-                Thread.Sleep(1000);
+                Thread.Sleep(TempoDeAtualizacao);
             }
 
             if (viagemDeIdaEVolta)
@@ -69,8 +75,20 @@
 
         private void PrintarMapa()
         {
+            Console.Write("  ");
+            for (int i = 0; i < Mapa.Matriz.GetLength(1); i++)
+            {
+                if (i % 2 == 0)
+                    Console.ForegroundColor = ConsoleColor.White;
+                else
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write($"{(i + 1).ToString().PadLeft(2)}");
+            }
+            Console.WriteLine();
             for (int i = 0; i < Mapa.Matriz.GetLength(0); i++)
             {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write($"{(i+1).ToString().PadLeft(2)} ");
                 for (int o = 0; o < Mapa.Matriz.GetLength(1); o++)
                 {
                     if (i == PosicaoLink.Linha && o == PosicaoLink.Coluna)
