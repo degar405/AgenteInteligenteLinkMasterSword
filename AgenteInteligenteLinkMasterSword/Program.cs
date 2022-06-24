@@ -52,6 +52,7 @@ List<PosicaoItem>? melhorCaminhoLwMs = buscaLwMs.EncontrarMelhorCaminho(out _);
 if (melhorCaminhoLwMs == null) return;
 #endregion
 
+#region Cálculo da melhor ordem de visitação
 List<PosicaoItem>?[] melhoresCaminhosDeDungeons = new List<PosicaoItem>?[] { melhorCaminhoDungeon1, melhorCaminhoDungeon2, melhorCaminhoDungeon3 };
 
 OrdemDeVisitacao ordemDeVisitacao = new();
@@ -64,6 +65,7 @@ ordemDeVisitacao.AdicionarCaminho(PontosVisitacaoHyrule.Dungeon1, PontosVisitaca
 ordemDeVisitacao.AdicionarCaminho(PontosVisitacaoHyrule.Dungeon2, PontosVisitacaoHyrule.Dungeon3, melhorCaminhoD2D3, custoDoCaminhoD2D3);
 
 PontosVisitacaoHyrule[] melhorOrdemDeVisitacao = ordemDeVisitacao.CalcularMelhorOrdemDeVisitacao();
+#endregion
 
 Console.WriteLine("Informe, em milissegundos, a velocidade de atualização da exibição dos mapas.");
 if(!int.TryParse(Console.ReadLine(), out int tempoDeAtualizacao))
@@ -102,3 +104,7 @@ for (int i = 1; i < melhorOrdemDeVisitacao.Length; i++)
 
 exibidorHyrule.AplicarCaminho(melhorCaminhoClLw);
 exibidorHyrule.AplicarCaminho(melhorCaminhoLwMs);
+
+Console.WriteLine();
+Console.WriteLine("Aperte qualquer tecla para finalizar.");
+Console.ReadKey(true);
